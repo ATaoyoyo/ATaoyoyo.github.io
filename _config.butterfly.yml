@@ -1,12 +1,45 @@
 menu:
   首页: / || fas fa-home
   分类: /categories/ || fas fa-folder-open
-  标签: /tags || fas fa-tags
   归档: /archives/ || fas fa-archive
+  关于: /about/ || fas fa-heart
+
+favicon: /img/avatar.png
 
 # code pane
 highlight_theme: mac
 highlight_copy: true
+highlight_shrink: false
+code_word_wrap: true
+
+# 文章显示
+post_meta:
+  post:
+    date_type: both # created or updated or both 文章页日期是创建日或者更新日或都显示
+    date_format: relative # date/relative 显示日期还是相对日期
+    categories: true # true or false 文章页是否显示分类
+    tags: true # true or false 文章页是否显示标籤
+    label: true # true or false 显示描述性文字
+  page:
+    date_type: created # created or updated or both 主页文章日期是创建日或者更新日或都显示
+    date_format: relative # date/relative 显示日期还是相对日期
+    categories: true # true or false 主页是否显示分类
+    tags: true # true or false 主页是否显示标籤
+    label: true # true or false 显示描述性文字
+
+# 侧边栏
+aside:
+  enable: true
+  hide: false
+  button: true
+  mobile: true
+  position: right
+  card_announcement:
+    enable: true
+    content:
+      多读书📖多看报📰
+      <br />
+      要吃零食🍣多睡觉💤
 
 # 加载动画 Loading Animation
 preloader: true
@@ -27,19 +60,10 @@ cover:
   position: both
   default_cover:
 
-post_meta:
-  page:
-    date_type: both # created or updated or both 主页文章日期是创建日或者更新日或都显示
-    date_format: relative # date/relative 显示日期还是相对日期
-    categories: true # true or false 主页是否显示分类
-    tags: true # true or false 主页是否显示标籤
-    label: true # true or false 显示描述性文字
-  post:
-    date_type: both # created or updated or both 文章页日期是创建日或者更新日或都显示
-    date_format: relative # date/relative 显示日期还是相对日期
-    categories: true # true or false 文章页是否显示分类
-    tags: true # true or false 文章页是否显示标籤
-    label: true # true or false 显示描述性文字
+related_post:
+  enable: true
+  limit: 6 # 显示推荐文章数目
+  date_type: created # or created or updated 文章日期显示创建日或者更新日
 
 toc:
   enable: true
@@ -87,7 +111,7 @@ darkmode:
   enable: true
   # dark mode和 light mode切换按钮
   button: true
-  autoChangeMode: true
+  autoChangeMode: false
 
 # 阅读模式
 readmode: true
