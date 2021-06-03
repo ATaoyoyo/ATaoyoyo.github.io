@@ -15,5 +15,5 @@ deploy:
   keep-history: true
   on:
     all_branches: true 
-    target_branch: master
+    target_branch: gh-pages
   local-dir: public

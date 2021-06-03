@@ -5,11 +5,12 @@
 # Site
 title: ATaoyoyo
 subtitle: 'Just a coder!'
-description: "ATaoyoyo's blog site."
-keywords: 
+description: "Must be a better man!"
+keywords: ATaoyoyo Blog
 author: ATaoYoyo
 language: zh
 timezone: ''
+email: ataoyoyo@foxmail.com
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
