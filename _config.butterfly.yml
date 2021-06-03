@@ -100,9 +100,9 @@ busuanzi:
   site_pv: true
   page_pv: true
 
-runtimeshow:
-  enable: true
-  publish_date: 6/7/2018 00:00:00  
+# runtimeshow:
+  # enable: true
+  # publish_date: 6/7/2018 00:00:00  
   ##网页开通时间
   #格式: 月/日/年 时间
   #也可以写成 年/月/日 时间
