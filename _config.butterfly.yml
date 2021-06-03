@@ -111,7 +111,7 @@ darkmode:
   enable: true
   # dark mode和 light mode切换按钮
   button: true
-  autoChangeMode: 1
+  autoChangeMode: 2
 
 # 阅读模式
 readmode: true
