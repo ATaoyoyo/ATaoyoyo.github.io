@@ -181,7 +181,9 @@ dealFile(file) {
 
 ```js
 dealFile(file) {
-  const wb = xlsx.read(file, { type: 'buffer' }) // type 为保存的数据类型，因为之前FileReader使用的保存为Buffer格式，所以这里也必须填buffer。 其他的有base64， binary等。
+  // type 为保存的数据类型，因为之前FileReader使用的保存为Buffer格式，所以这里也必须填buffer。
+  // 其他的有base64， binary等。
+  const wb = xlsx.read(file, { type: 'buffer' })
 
   const sheet = xlsx.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], {
     // header: 1, // 表头所占行数
@@ -204,7 +206,17 @@ dealFile(file) {
 },
 ```
 
+> wb 数据
+
+![wb](/img/article/20210616/article1.jpg)
+
+> sheet 数据
+
+![sheet](/img/article/20210616/article2.jpg)
+
 得到对应的表格标题及表格数据之后，将其赋值之后，就可以看到上传的 excel 文件数据被生成表格了。
+
+![sheet](/img/article/20210616/article3.jpg)
 
 但是目前还存在一些缺陷，对于多表头的 excel 文件没有进行处理；并且表格中若有多张表，也没有进行处理。
 
