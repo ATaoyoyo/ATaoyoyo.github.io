@@ -25,6 +25,7 @@ description: 使用xlsx对Excel文件进行导入，并且生成表格。
 <el-upload
   action=""
   accept=".xls,.xlsx"
+  :auto-upload="false"
   :show-file-list="false"
   :limit="1"
   :on-change="handChangeFile"
@@ -205,4 +206,13 @@ dealFile(file) {
 
 得到对应的表格标题及表格数据之后，将其赋值之后，就可以看到上传的 excel 文件数据被生成表格了。
 
-完毕！成功！
+但是目前还存在一些缺陷，对于多表头的 excel 文件没有进行处理；并且表格中若有多张表，也没有进行处理。
+
+后续慢慢改进吧......
+
+## 总结
+
+- 使用`el-upload`获取文件数据
+- 利用`FileReader`构造函数读取并保存文件内容
+- 用`xlsx.read`方法将文件内容转化，再使用`xlsx.utils.sheet_to_json`方法转换数据格式
+- 将得到的数据格式化为`el-table`所需要的格式
