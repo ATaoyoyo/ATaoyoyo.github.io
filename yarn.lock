@@ -3329,9 +3329,10 @@ hexo-server@^2.0.0:
     open "^7.0.0"
     serve-static "^1.14.1"
 
-hexo-theme-butterfly@^3.7.8:
-  version "3.7.8"
-  resolved "https://registry.yarnpkg.com/hexo-theme-butterfly/-/hexo-theme-butterfly-3.7.8.tgz#bbe583c86da21044507434ad2b2fd0959c8dbb2a"
+hexo-theme-butterfly@^3.8.0:
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/hexo-theme-butterfly/-/hexo-theme-butterfly-3.8.0.tgz#6ba3cb94143eb5c4a1ed8a045782418b4229e000"
+  integrity sha512-9AcTiQ4XY+iP9AwjkbwfnG79lKrsIuepQvja1tXf/wLC4CshMGIMjiLERfIgvf5KGAPnlOdsiflY4m+lHhlCXg==
   dependencies:
     hexo-renderer-pug "^1.0.0"
     hexo-renderer-stylus "^2.0.1"
