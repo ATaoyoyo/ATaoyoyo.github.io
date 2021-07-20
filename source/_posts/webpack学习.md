@@ -2,6 +2,9 @@
 title: webpack学习
 date: 2021-07-18 13:58:39
 tags:
+cover: /img/article/webpack/webpack.jpg
+top_img: /img/article/webpack/webpack.jpg
+description: 学一学webpack！！！
 ---
 
 # 基础概念
