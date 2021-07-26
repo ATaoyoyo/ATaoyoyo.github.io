@@ -168,3 +168,89 @@ module.export = {
 ```
 
 ### 样式
+
+常用的样式 `loader` 有 `css-loader` 与 `style-loader`，在写 `rules` 规则时，需要注意样式 `loader` 的顺序是反着来的，`css-loader`放在后面，`style-loader`放在前面。
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+}
+```
+
+如果使用的是`sass`或者`less`等 `css` 预处理器，得先将其编译为`css`，然后使用`css-loader`和`style-loader`进行编译打包。
+
+比方说用`sass`:
+
+```shell
+npm install sass-loader sass --save-dev
+```
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          // Creates `style` nodes from JS strings
+          'style-loader',
+          // Translates CSS into CommonJS
+          'css-loader',
+          // Compiles Sass to CSS
+          'sass-loader',
+        ],
+      },
+    ],
+  },
+}
+```
+
+在使用到一些高级 `CSS` 语法特性时，需要加上厂商前缀，可以使用`postcss-loader`来进行帮助，首先安装`postcss`和`postcss-loader`：
+
+```js
+npm install --save-dev postcss-loader postcss
+```
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [['postcss-preset-env']],
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+```
+
+还有一个`autoprefixer`插件，也是帮助 `CSS` 添加厂商前缀的，但是默认的`postcss-preset-env`插件默认带上了`autoprefixer`，也可以不用配置。除此之外，需要添加一个`.browserslistrc`文件，添加以下内容之后`postcss`才会生效：
+
+```shell
+defaults,
+not ie < 11,
+last 2 versions,
+> 1%,
+iOS 7,
+last 3 iOS versions
+```
+
+然后 CSS 高级语法特性就会自动添加厂商前缀了。
