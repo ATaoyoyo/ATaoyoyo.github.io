@@ -88,7 +88,7 @@ module.exports = {
 
 # 常用配置
 
-## 使用 loader 打包静态资源
+## 使用 `loader` 打包静态资源
 
 ### 图片
 
@@ -254,3 +254,45 @@ last 3 iOS versions
 ```
 
 然后 CSS 高级语法特性就会自动添加厂商前缀了。
+
+## 使用 `plugins` 配置让打包更编辑
+
+### `html-webpack-plugin`
+
+`html-webpack-plugin`可以配置一个`html`文件模版，打包之后生成一个`html`文件并且引入对应的`js`文件。
+
+```js
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+
+module.exports = {
+  entry: 'index.js',
+  output: {
+    path: path.resolve(__dirname, './dist'),
+    filename: 'index_bundle.js',
+  },
+  plugins: [new HtmlWebpackPlugin(template: path.resolve(__dirname, './src/index.html'))],
+};
+```
+
+### `clean-webpack-plugin`
+
+`clean-webpack-plugin`用于清除上次打包之后的文件。
+
+```js
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const path = require('path')
+
+module.exports = {
+  entry: 'index.js',
+  output: {
+    path: path.resolve(__dirname, './dist'),
+    filename: 'index_bundle.js',
+  },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({ template: path.resolve(__dirname, './src/index.html') }),
+  ],
+}
+```
