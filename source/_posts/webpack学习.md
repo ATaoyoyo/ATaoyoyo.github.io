@@ -296,3 +296,219 @@ module.exports = {
   ],
 }
 ```
+
+## `entry`与`output`基础配置
+
+`entry`为打包入口，可以是一个字符串也可以是一个对象；为对象时，代表打包多个页面。对应的，如果`entry`打包多个页面，`output`中的`filename`就不能写死，否则会打包出错。可以使用占位符`[name]`动态替换打包后的文件名称，`name`对应`entry`中的 key 值。
+
+```js
+module.exports = {
+  entry: {
+    home: './home.js',
+    about: './about.js',
+    contact: './contact.js',
+  },
+
+  ourput: {
+    filename: '[name].js',
+  },
+}
+```
+
+## `sourceMap`
+
+代码调试映射
+
+```shell
+dev: cheap-module-eval-source-map
+pro: cheap-module-source-map
+```
+
+## `devServer`
+
+使用`devServer`可以开启一个服务，自动打开打包后的 index.html 文件，解决了每次打包完毕后手动启动的麻烦。
+
+首先安装依赖：
+
+```shell
+npm install webpack-dev-server --save-dev
+```
+
+在`webpack.config.js`中添加以下代码：
+
+```js
+const path = require('path')
+module.exports = {
+  devServer: {
+    contentBase: path.join(__dirname, './dist'), // 使用哪个目录用来提供服务
+    compress: true, // 开启gizp压缩
+    port: 8080, // 服务端口号
+    open: true, // 自动打开浏览器
+  },
+}
+```
+
+添加服务之后，就可以不用每次改完代码都去重新打包了，但是必须要刷新浏览器才能让更改后的代码生效，这时可以使用热更新模块帮助页面刷新。
+
+```js
+const webpack = require('webpack')
+const path = require('path')
+module.exports = {
+  devServer: {
+    contentBase: path.join(__dirname, './dist'), // 使用哪个目录用来提供服务
+    compress: true, // 开启gizp压缩
+    port: 8080, // 服务端口号
+    open: true, // 自动打开浏览器
+    hot: true, // 打开热更新
+    hotOnly: true, // 若是热更新失效，让浏览器自动刷新
+  },
+
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(), // 使用热更新模块
+  ],
+}
+```
+
+## 使用`babel`处理 ES6 语法
+
+一些低版本的浏览器是无法识别 ES6 语法的，可以使用`babel`处理 ES6 语法的转换。
+
+首先安装所需依赖：
+
+```shell
+npm install --save-dev babel-loader @babel/core
+```
+
+在`webpack.config.js`中添加 loader：
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
+        },
+      },
+    ],
+  },
+}
+```
+
+配置好 `loader` 之后，再次打包出来的 js 文件就是 ES5 的语法了，但是这样做 `babel` 会将所有的语法都转换为 ES6，出口文件的体积会变得很大。可以使用`@babel/polyfill` 来配置规则。
+
+```shell
+npm install --save @babel/polyfill
+```
+
+然后修改 `webpack.config.js`中的 `babel-loader` 文件：
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              ['@babel/preset-env', { useBuiltIns: 'usage', target: { chrome: '58', ie: '11' } }],
+            ],
+          },
+        },
+      },
+    ],
+  },
+}
+```
+
+再次打包，就可以发现代码体积变得很小了。
+
+然后发现有一个警告，说是指定了 `useBuiltIns`，还需要配置 `corejs`：
+
+```shell
+npm install --save core-js@2
+```
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              [
+                '@babel/preset-env',
+                { useBuiltIns: 'usage', corejs: 2, target: { chrome: '58', ie: '11' } },
+              ],
+            ],
+          },
+        },
+      },
+    ],
+  },
+}
+```
+
+配置好后，便可以消除警告了。
+
+### 组件库中的 `babel` 配置
+
+如果需要编写组件库这类代码，上面的方法就不太合适。babel 转换后的代码是全局的，可能会影响其他的代码，若是业务代码，就没啥问题，但如果编写的是公共内库，就会有问题。
+
+可以使用 `@babel/plugin-transform-runtime` 来解决这个问题，`@babel/plugin-transform-runtime`使用闭包可以避免命名重复的问题。
+
+```shell
+npm install --save-dev @babel/plugin-transform-runtime
+```
+
+```shell
+npm install --save @babel/runtime @babel/runtime-corejs2
+```
+
+然后在 webpack.config.js 中修改 babel-loader：
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            plugins: [
+              [
+                '@babel/plugin-transform-runtime',
+                {
+                  absoluteRuntime: false,
+                  corejs: 2, // 对应@babel/runtime-corejs2
+                  helpers: true,
+                  regenerator: true, // 不污染全局
+                  version: '7.0.0-beta.0',
+                },
+              ],
+            ],
+          },
+        },
+      },
+    ],
+  },
+}
+```
+
+## TreeShaking
+
+TreeShaking 只支持 ESModule 模块导入
