@@ -398,3 +398,19 @@ CREATE TABLE first_table (
   second_column VARCHAR(100) DEFAULT 'abc' COMMENT '第二列'
 ) COMMENT '第一个表';
 ```
+
+### 一个列同时具有多个属性
+
+每个列可以同时具有多个属性，属性声明的顺序无所谓，各个属性之间用空白隔开
+
+**有的属性是冲突的，一个列不能具有两个冲突的属性，。如一个列不能既声明为 `PRIMARY KEY`，又声明为 `UNIQUE KEY`，不能既声明为 `DEFAULT NULL`，又声明为 NOT NULL。大家在使用过程中需要注意这一点。**
+
+### 标识符的命名
+
+不建议通过以下方式命名：
+
+- 名称中全都是数字
+- 名称中有空白字符
+- 名称使用了MySQL中的保留字
+
+
