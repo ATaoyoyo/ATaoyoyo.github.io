@@ -7,6 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
+    "release": "hexo clean && hexo generate && hexo deploy",
     "dep": "hexo clean && hexo generate && gulp && hexo deploy"
   },
   "hexo": {
