@@ -59,21 +59,20 @@ description: 攻克一下MYSQL...
 
 ## 创建数据库
 
-```
+````sql
 CREATE DATABASE 数据库名;
 
-CREATE DATABASE IF NOT EXISTS 数据库名;
-```
+CREATE DATABASE IF NOT EXISTS 数据库名
 
 ## 切换数据库
 
-```
+```sql
 USE 数据库名;
-```
+````
 
 ## 删除数据库
 
-```
+```sql
 DROP DATABASE 数据库名;
 
 DROP DATABASE IF EXISTS 数据库名;
@@ -81,7 +80,7 @@ DROP DATABASE IF EXISTS 数据库名;
 
 ## 查看当前使用的数据库
 
-```
+```sql
 SELECT DATABASE();
 ```
 
@@ -89,13 +88,13 @@ SELECT DATABASE();
 
 ## 展示当前数据库的表
 
-```
+```sql
 SHOW TABLES;
 ```
 
 ## 创建表
 
-```
+```sql
 CREATE TABLE IF NOT EXISTS 表名(
   列名1 数据类型 [列的属性],
   列名2 数据类型 [列的属性],
@@ -107,13 +106,13 @@ CREATE TABLE IF NOT EXISTS 表名(
 
 ## 删除表
 
-```
+```sql
 DROP TABLE IF EXISTS 表1, 表2, ..., 表n;
 ```
 
 ## 查看表结构
 
-```
+```sql
 DESCRIBE 表名;
 DESC 表名;
 EXPLAIN 表名;
@@ -131,19 +130,19 @@ SHOW TABLES FORM 数据库名.表名\G; 没有指定数据库时查看
 
 - 方式一
 
-```
+```sql
 ALTER TABLE 旧表名 RENAME TO 新表名;
 ```
 
 - 方式二
 
-```
+```sql
 RENAME TABLE 旧表名1 TO 新表名1, 旧表名2 TO 新表名2, ... 旧表名n TO 新表名n;
 ```
 
 将表转移到其他数据库下:
 
-```
+```sql
 ALTER TABLE 表名 RENAME TO 数据库名.新表名;
 ```
 
@@ -151,25 +150,25 @@ ALTER TABLE 表名 RENAME TO 数据库名.新表名;
 
 #### 常规写法
 
-```
+```sql
 ALTER TABLE 表名 ADD COLUMN 列名 数据类型 [列的属性];
 ```
 
 #### 增加到第一列
 
-```
+```sql
 ALTER TABLE 表名 ADD COLUMN 列名 列的类型 [列的属性] FIRST;
 ```
 
 #### 增加到指定列后面
 
-```
+```sql
 ALTER TABLE 表名 ADD COLUMN 列名 列的类型 [列的属性] AFTER 指定列名;
 ```
 
 ### 删除列
 
-```
+```sql
 ALTER TABLE 表名 DROP COLUMN 列名;
 ```
 
@@ -181,31 +180,31 @@ ALTER TABLE 表名 DROP COLUMN 列名;
 
 - 方式一
 
-```
+```sql
 ALTER TABLE 表名 MODIFY 列名 新数据类型 [新属性];
 ```
 
 - 方式二
 
-```
+```sql
 ALTER TABLE 表名 CHANGE 旧列名 新列名 新数据类型 [新属性];
 ```
 
 #### 将列设为表的第一列
 
-```
+```sql
 ALTER TABLE 表名 MODIFY 列名 列的类型 列的属性 FIRST;
 ```
 
 #### 将列放到指定列的后边
 
-```
+```sql
 ALTER TABLE 表名 MODIFY 列名 列的类型 列的属性 AFTER 指定列名;
 ```
 
 #### 一条语句包含多个修改操作
 
-```
+```sql
 ALTER TABLE 表名 操作1, 操作2, ..., 操作n;
 ```
 
@@ -215,19 +214,19 @@ ALTER TABLE 表名 操作1, 操作2, ..., 操作n;
 
 #### 简单的查询语句
 
-```
+```sql
 SELECT * FROM 表名;
 ```
 
 #### 简单的插入语句
 
-```
+```sql
 INSERT INTO 表名(列1, 列2, ...) VALUES(列1的值，列2的值, ...);
 ```
 
 #### 批量插入
 
-```
+```sql
 INSERT INTO 表名(列1,列2, ...) VAULES(列1的值，列2的值, ...), (列1的值，列2的值, ...), (列1的值，列2的值, ...), ...;
 ```
 
@@ -235,11 +234,11 @@ INSERT INTO 表名(列1,列2, ...) VAULES(列1的值，列2的值, ...), (列1�
 
 #### 默认值
 
-```
+```sql
 列名 列的类型 DEFAULT 默认值
 ```
 
-```
+```sql
 CREATE TABLE test_table (
   column1 INT,
   column2 VARCHAR(100) DEFAULT 'abc'
@@ -248,7 +247,7 @@ CREATE TABLE test_table (
 
 ### NOT NULL 属性
 
-```
+```sql
 CREATE TABLE test_table (
   column1 INT NOT NULL,
   column2 VARCHAR(100) DEFAULT 'abc'
@@ -261,7 +260,7 @@ CREATE TABLE test_table (
 
 **方式一**
 
-```
+```sql
 CREATE TABLE student_info (
   number INT PRIMARY KEY,
   name varchar(5),
@@ -275,7 +274,7 @@ CREATE TABLE student_info (
 
 **方式二**
 
-```
+```sql
 CREATE TABLE student_info (
   number INT,
   name VARCHAR(5),
@@ -290,7 +289,7 @@ CREATE TABLE student_info (
 
 **列组合作为主键**
 
-```
+```sql
 CREATE TABLE student_score (
   number INT,
   subject VARCHAR(30),
@@ -307,7 +306,7 @@ CREATE TABLE student_score (
 
 在该列后面直接声明`UNIQUE`属性：
 
-```
+```sql
 CREATE TABLE student_info (
   number INT PRIMARY KEY,
   name CHAR(5),
@@ -323,17 +322,17 @@ CREATE TABLE student_info (
 
 单独声明`UNIQUE`属性：
 
-```
+```sql
 UNIQUE [约束名称] (列名1, 列名2, ...)
 ```
 
 或者
 
-```
+```sql
 UNIQUE KEY [约束名称] (列名1, 列名2, ...)
 ```
 
-```
+```sql
 CREATE TABLE student_info (
   number INT PRIMARY KEY,
   name VARCHAR(5),
@@ -356,11 +355,11 @@ CREATE TABLE student_info (
 
 ### 外键
 
-```
+```sql
 CONSTRAINT [外键名称] FOREIGN KEY(列1, 列2, ...) REFERENCES 父表名(父列1, 父列2, ...);
 ```
 
-```
+```sql
 CREATE TABLE student_score (
   number INT,
   subject VARCHAR(30),
@@ -380,11 +379,11 @@ CREATE TABLE student_score (
 
 一般拥有 `AUTO_INCREMENT` 属性的列都是作为主键的属性，来自动生成唯一标识一条记录的主键值。
 
-```
+```sql
 列名 列的类型 AUTO_INCREMENT
 ```
 
-```
+```sql
 CREATE TABLE test_table (
   id INT UNSIGEND AUTO_INCREMENT PRIMARY KEY,
   column1 INT,
@@ -394,7 +393,7 @@ CREATE TABLE test_table (
 
 ### 列的注释
 
-```
+```sql
 CREATE TABLE first_table (
   id int UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '自增主键',
   first_column INT COMMENT '第一列',
@@ -420,25 +419,25 @@ CREATE TABLE first_table (
 
 ### 查询单个列
 
-```
+```sql
 SELECT 列名 FROM 表名;
 ```
 
 #### 列的别名
 
-```
+```sql
 SELECT 列名 [AS] 列的别名 FROM 表名;
 ```
 
 ### 查询多个列
 
-```
+```sql
 SELECT 列名1, 列名2, ... 列名n FROM 表名;
 ```
 
 ### 查询所有列
 
-```
+```sql
 SELECT * FROM 表名;
 ```
 
@@ -446,19 +445,19 @@ SELECT * FROM 表名;
 
 #### 去除单列的重复结果
 
-```
+```sql
 SELECT DISTINCT 列名 FROM 表名;
 ```
 
 #### 去除多列的重复结果
 
-```
+```sql
 SELECT DISTINCT 列名1, 列名2, ... 列名n  FROM 表名;
 ```
 
 ### 限制查询结果条数
 
-```
+```sql
 LIMIT 开始行, 限制条数;
 ```
 
@@ -467,12 +466,112 @@ LIMIT 开始行, 限制条数;
 ASC: 由小到大，生序
 DESC：由大到小，降序
 
-```
+```sql
 ORDER BY 列名 ASC|DESC
 ```
 
 #### 按照多个列的值进行排序
 
-```
+```sql
 ORDER BY 列1 ASC|DESC, 列2 ASC|DESC ...
+```
+
+## 带搜索条件多查询
+
+### 简单搜索条件
+
+```sql
+SELECT * FROM 表名 WHERE xxx 比较操作符 xxx;
+```
+
+| 操作符        | 操作符                  | 描述           |
+| ------------- | ----------------------- | -------------- |
+| `=`           | `a = b`                 | a 等于 b       |
+| `<>`或者`!=`  | `a <> b`                | a 不等于 b     |
+| `<`           | `a < b`                 | a 小于 b       |
+| `<=`          | `a <= b`                | a 小于等于 b   |
+| `>`           | `a > b`                 | a 大于 b       |
+| `>=`          | `a >= b`                | a 大于等于 b   |
+| `BETWEEN`     | `a BETWEEN b AND c`     | 满足 a<=b<=c   |
+| `NOT BETWEEN` | `a NOT BETWEEN b AND c` | 不满足 b<=a<=c |
+
+### 匹配列表中的元素
+
+匹配到列表中的某一项就算匹配成功。
+
+```sql
+SELECT * FROM 表名 WHERE xxx IN xxx;
+```
+
+| 操作符   | 示例                     | 描述                            |
+| -------- | ------------------------ | ------------------------------- |
+| `IN`     | `a IN (b1, b2, ...)`     | a 是 b1, b2, ... 中的某一个     |
+| `NOT IN` | `a NOT IN (b1, b2, ...)` | a 不是 b1, b2, ... 中的任意一个 |
+
+### 匹配`NULL`值
+
+判断某一列是否没有值。
+
+| 操作符        | 示例            | 描述            |
+| ------------- | --------------- | --------------- |
+| `IS NULL`     | `a IS NULL`     | `a的值是NULL`   |
+| `IS NOT NULL` | `a IS NOT NULL` | `a的值不是NULL` |
+
+### 多个搜索条件查询
+
+#### `AND`操作符
+
+```sql
+SELECT * FROM 表名 WHERE a 比较操作符 xxx AND b 比较操作符 xxx；
+```
+
+#### `OR`操作符
+
+只满足其中一个条件即可。
+
+```sql
+ SELECT * FROM 表名 WHERE a 比较操作符 OR xxx b 比较操作符 xxx;
+```
+
+#### 条件复杂的组合搜索
+
+`AND`的优先级高于`OR`，在查询是需要用小括号标记。
+
+```sql
+SELECT * FROM 表名 WHERE (xxx 比较操作符 OR xxx 比较操作符 xxx) AND xxx 比较操作符 xxx;
+```
+
+### 通配符
+
+以下操作符支持`模糊查询`：
+
+| 操作符     | 示例           | 描述       |
+| ---------- | -------------- | ---------- |
+| `LIKE`     | `a LIKE b`     | a 匹配 b   |
+| `NOT LIKE` | `a NOT LIKE b` | a 不匹配 b |
+
+以下为通配符：
+
+- `%`：代表任意一个字符串
+
+```sql
+SELECT * FROM 表名 WHERE xxx LIKE 'x%';
+SELECT * FROM 表名 WHERE xxx LIKE '%x%';
+```
+
+- `_`：代表任意一个字符
+
+```sql
+SELECT * FROM 表名 WHERE xxx LIKE '李_'
+```
+
+#### 转义通配符
+
+通过加`\`来区分转义通配符与通配符。
+
+- `'\%'`代表普通字符`'%'`
+- `'\_'`代表普通字符`'\_'`
+
+```sql
+SELECT * FROM 表名 WHERE xxx LIKE '李\%';
 ```
