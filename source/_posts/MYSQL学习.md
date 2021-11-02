@@ -1,7 +1,8 @@
 ---
 title: MYSQL学习
 date: 2021-10-27 20:49:37
-tags:
+tags: MYSQL
+categories: MYSQL
 cover: /img/article/mysql/mysql.PNG
 top_img: /img/article/mysql/mysql.PNG
 description: 攻克一下MYSQL...
