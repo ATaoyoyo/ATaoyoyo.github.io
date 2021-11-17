@@ -63,4 +63,68 @@ INSERT INTO second_table(s, i) SELECT second_column, first_column FROM first_tab
 
 ### INSERT IGNORE
 
-对于一些是主键或者具有 UNIQUE 约束的列或者列组合来说，它们不允许重复值的出现。
+对于一些是主键或者具有 UNIQUE 约束的列或者列组合来说，它们不允许重复值的出现。可以使用`INSERT IGNORE`忽略这种束缚。
+
+```sql
+INSERT IGNORE INTO first_table(first_column, second_column) VALUES(1, '哇哈哈') ;
+```
+
+如果列中已经存在已插入的值，那么这条插入记录会被自动忽略。
+
+### INSERT ON DUPLICATE KEY UPDATE
+
+插入记录时，表中具有`UNIQUE`属性或者`主键`属性的列与该记录不重复时，可以直接插入，否则更新已存在的记录。
+
+语法：
+
+```sql
+INSERT ... ON DUPLICATE KEY UPDATE ...
+```
+
+举个例子：
+
+```sql
+INSERT INTO first_table (first_column, second_column) VALUES(1, '哇哈哈') ON DUPLICATE KEY UPDATE second_column = '雪碧';
+```
+
+如果存在`first_column`为`1`的记录，就将该记录中的`second_column`改为`雪碧`。
+
+插入新记录时，对于具有`主键`或者`UNIQUE`属性的列与该记录有重复时，可以使用`VALUES(列名)`来引用新记录中对应列的值。
+
+```sql
+INSERT INTO first_table (first_column, second_column) VALUES(1, '哇哈哈') ON DUPLICATE KEY UPDATE second_column = VALUES(second_column);
+```
+
+`VALUES(second_column)`代表待插入记录中`second_column`的值，乍一看，跟上面的效果没啥区别，但是插入多条记录时就非常有用了。
+
+```sql
+INSERT INTO first_table (first_column, second_column) VALUES(1, '哇哈哈'), (2, '喜之郎') ON DUPLICATE KEY UPDATE second_column = VALUES(second_column);
+```
+
+## 删除数据
+
+```sql
+DELETE FROM 表名 [WHERE 表达式];
+```
+
+**如果不加`WHERE`条件会将所有记录都删除。**
+
+可以使用`LIMIT`子句限制删除记录的数量，使用`ORDER BY`子句指定符合条件的记录的删除顺序。
+
+```sql
+DELETE FROM first_table ORDER BY first_column DESC LIMIT 1;
+```
+
+## 更新数据
+
+```sql
+UPDATE 表名 SET 列1=值1, 列2=值2, ...,  列n=值n [WHERE 布尔表达式];
+```
+
+**如果不加`WHERE`条件会更新所有记录。**
+
+同样可以使用`LIMIT`子句限制更新记录的数量，用`ORDER BY`子句指定符合条件的记录的更新顺序。
+
+```sql
+UPDATE first_table SET second_column = '爽歪歪' ORDER BY first_column DESC LIMIT 1;
+```
