@@ -5,7 +5,7 @@ tags: MYSQL
 categories: MYSQL
 cover: /img/article/mysql/mysql.PNG
 top_img: /img/article/mysql/mysql.PNG
-description: 数据的插入，删除与更新
+description: 视图
 ---
 
 # 视图
