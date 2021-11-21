@@ -48,9 +48,7 @@ typeof [] // 'object'
 typeof function () {} // 'function'
 ```
 
-::: warning 注意！
-`typeof`对于值类型的`null`会判断为`object`，其他的则是原始类型；对引用类型的`function`会判断为`function`，其他的则都为`object`。
-:::
+> `typeof`对于值类型的`null`会判断为`object`，其他的则是原始类型；对引用类型的`function`会判断为`function`，其他的则都为`object`。
 
 ## 类型转换
 
@@ -102,9 +100,7 @@ null === null // true
 NaN === NaN // false
 ```
 
-::: warning 注意
-NaN 与任意值进行全等比较依然返回 false，包括自身。
-:::
+> NaN 与任意值进行全等比较依然返回 false，包括自身。
 
 ### if 条件，逻辑运算
 
@@ -192,11 +188,9 @@ console.log(Function.__proto__ === Function.prototype) // true
 
 `instanceof`运算符用于检测构造函数的 `prototype` 属性是否出现在某个实例对象的原型链上。也可以理解为构造函数的`prototype`属性是否与实例的`__proto__`相等。
 
-::: tip
-实例对象的`__proto__`指向创建它的构造函数的原型。
-构造函数原型的`__proto__`指向`Object`的原型。
-构造函数都是`Function`的实例。
-:::
+> 实例对象的`__proto__`指向创建它的构造函数的原型。
+> 构造函数原型的`__proto__`指向`Object`的原型。
+> 构造函数都是`Function`的实例。
 
 ## 作用域与闭包
 
@@ -386,11 +380,9 @@ p2.sayHi() // 'mike' 20
 
 构造函数模式和工厂模式大致相同，但是有以下几点不同：
 
-::: warning
-没有显示地创建对象。
-属性和方法直接赋值给了`this`。
-没有`return`。
-:::
+> 没有显示地创建对象。
+> 属性和方法直接赋值给了`this`。
+> 没有`return`。
 
 构造函数解决了对象类型识别的问题，但是内部定义的方法会在每个实例上都重新创建一遍，造成浪费。
 
