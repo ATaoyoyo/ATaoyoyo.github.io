@@ -1,0 +1,263 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>事件循环 | ATaoyoyo</title><meta name="keywords" content="JavaScript笔记"><meta name="author" content="ATaoYoyo,ataoyoyo@foxmail.com"><meta name="copyright" content="ATaoYoyo"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="事件循环前言首先，得明确一点，JavaScript 是一门单线程语言。也就是说，JavaScript 代码是同步执行的，所有的代码都是由上而下执行的： 12345var name &#x3D; &amp;#x27;nick&amp;#x27;console.log(name)var age &#x3D; 18console.log(age)  但是如果代码量过大，有些代码的逻辑又复杂，一直不能运行完毕，后面的代码就无法运行，这就会造">
+<meta property="og:type" content="article">
+<meta property="og:title" content="事件循环">
+<meta property="og:url" content="https://ataoyoyo.github.io/2021/11/21/JavaScript%E7%AC%94%E8%AE%B0/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/index.html">
+<meta property="og:site_name" content="ATaoyoyo">
+<meta property="og:description" content="事件循环前言首先，得明确一点，JavaScript 是一门单线程语言。也就是说，JavaScript 代码是同步执行的，所有的代码都是由上而下执行的： 12345var name &#x3D; &amp;#x27;nick&amp;#x27;console.log(name)var age &#x3D; 18console.log(age)  但是如果代码量过大，有些代码的逻辑又复杂，一直不能运行完毕，后面的代码就无法运行，这就会造">
+<meta property="og:locale">
+<meta property="og:image" content="https://ataoyoyo.github.io/img/article/js/js.png">
+<meta property="article:published_time" content="2021-11-21T07:27:42.000Z">
+<meta property="article:modified_time" content="2021-11-22T01:19:53.411Z">
+<meta property="article:author" content="ATaoYoyo">
+<meta property="article:tag" content="JavaScript笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ataoyoyo.github.io/img/article/js/js.png"><link rel="shortcut icon" href="/img/avatar.png"><link rel="canonical" href="https://ataoyoyo.github.io/2021/11/21/JavaScript%E7%AC%94%E8%AE%B0/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"Author: ATaoYoyo","link":"Link: ","source":"Source: ATaoyoyo","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source."}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '事件循环',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-11-22 09:19:53'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">24</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">3</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">ATaoyoyo</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">事件循环</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-11-21T07:27:42.000Z" title="Created 2021-11-21 15:27:42">2021-11-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-11-22T01:19:53.411Z" title="Updated 2021-11-22 09:19:53">2021-11-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/JavaScript%E7%AC%94%E8%AE%B0/">JavaScript笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="事件循环"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><h1 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>首先，得明确一点，<strong>JavaScript 是一门单线程语言</strong>。也就是说，JavaScript 代码是同步执行的，所有的代码都是由上而下执行的：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">&#x27;nick&#x27;</span></span><br><span class="line"><span class="built_in">console</span>.log(name)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> age = <span class="number">18</span></span><br><span class="line"><span class="built_in">console</span>.log(age)</span><br></pre></td></tr></table></figure>
+
+<p>但是如果代码量过大，有些代码的逻辑又复杂，一直不能运行完毕，后面的代码就无法运行，这就会造成一些堵塞的问题。就好比你去公交车站排队，等的人多了，你就必须等前面的人一个一个进入车里面，你才能再进去。</p>
+<h2 id="同步任务和异步任务"><a href="#同步任务和异步任务" class="headerlink" title="同步任务和异步任务"></a>同步任务和异步任务</h2><p>JavaScript 中，整体代码的运行我们可以称之为<strong>同步任务</strong>，也就是一行一行的执行；而另一些代码，可以不必等待前面的代码执行完毕之后再去执行，我们称之为<strong>异步任务</strong>。比方说，我们打开一个网页，页面骨架元素的加载就等同于同步任务，而网页上图片这种耗时的加载就等同于异步任务。</p>
+<p>这里借用社区的一张图片：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/11/21/15fdd88994142347?imageView2/0/w/1280/h/960/format/webp/ignore-error/1"></p>
+<p>解释一下图片上的内容：</p>
+<ul>
+<li>当一段代码开始运行时，会检查里面的同步任务及异步任务；同步任务进入主线程，异步任务进入<code>Event Table</code>；</li>
+<li><code>Event Table</code>会注册异步任务回调函数，然后放进<code>Event Queue</code>；</li>
+<li>当主线程中的任务全部执行完毕后，回去<code>Event Queue</code>中读取对应的异步任务，放进主线程中执行。</li>
+<li>不断重复上面的步骤。</li>
+</ul>
+<p>上述内容就是我们常说的事件循环（<code>Event Loop</code>）。</p>
+<p>看一个例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;1秒后出现&#x27;</span>)</span><br><span class="line">&#125;, <span class="number">1000</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;我来啦&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>上面这段代码由上而下执行，当遇到 setTimeout 后，发现是个异步任务，会将其放进<code>Event Table</code>中，注册异步任务回调函数，放进<code>Event Queue</code>；然后继续执行，<code>console.log()</code>是同步任务，放入主线程，执行之后输出<code>我来啦</code>；当主线程的任务执行完毕后，会去<code>Event Queue</code>中把刚刚注册的 setTimeout 异步函数任务放进主线程，执行后输出<code>1秒后出现</code>。</p>
+<h2 id="宏任务（MacroTask）与微任务（MicroTask）"><a href="#宏任务（MacroTask）与微任务（MicroTask）" class="headerlink" title="宏任务（MacroTask）与微任务（MicroTask）"></a>宏任务（MacroTask）与微任务（MicroTask）</h2><p>JavaScript 中的代码分为同步任务与异步任务，而异步任务有可以细分为<strong>宏任务</strong>与<strong>微任务</strong>。</p>
+<p><code>setTimeout</code>、<code>setInterval</code>等都为宏任务；<code>Promise.then catch finally</code>为微任务。</p>
+<p>当 JavaScript 执行过程中遇到宏任务时，会将其放进宏任务队列；遇到微任务，则放进微任务队列。微任务队列中的任务会先于宏任务执行。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;script start&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;setTimeout&#x27;</span>)</span><br><span class="line">&#125;, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">Promise</span>.resolve()</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;promise1&#x27;</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;promise2&#x27;</span>)</span><br><span class="line">  &#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;script end&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>上面这段代码，可将执行过程拆解为以下步骤：</p>
+<ol>
+<li><code>console.log(&#39;script start&#39;)</code>为同步任务，放入主线程中</li>
+<li><code>setTimeout</code>为异步宏任务，放进宏任务队列中</li>
+<li><code>Promise.resolve</code>为异步微任务，放进微任务队列中</li>
+<li><code>console.log(&#39;script end&#39;)</code>为同步任务，放进主线程中</li>
+</ol>
+<p>将各自任务分配完毕，开始执行：</p>
+<ol>
+<li>执行主线程中的代码，输出<code>script start</code>，<code>script end</code></li>
+<li>主线程中代码执行完毕，进入异步任务队列，优先寻找有无微任务</li>
+<li>发现<code>Promise.resolve</code>，放进主线程中，执行<code>.then()</code>中的代码，输出<code>promise1</code>，<code>promise1</code></li>
+<li>微任务中代码执行完毕，寻找宏任务中的代码</li>
+<li>发现<code>setTimeout</code>，放进主线程中，输出<code>setTimeout</code></li>
+</ol>
+<p>所以最终结果为：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">script start</span><br><span class="line">script end</span><br><span class="line">promise1</span><br><span class="line">promise2</span><br><span class="line"><span class="built_in">setTimeout</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>JavaScript 代码可分为<strong>同步代码</strong>和<strong>异步代码</strong>，异步代码又分为<strong>宏任务</strong>与<strong>微任务</strong>。</p>
+<p>宏任务主要有<code>setTimeout</code>、<code>setInterval</code>等。<br>微任务主要有<code>Promise.then catch finally</code>等。<br>微任务先于宏任务执行。</p>
+<p>执行过程大致如下：</p>
+<ol>
+<li>当遇到同步任务，会放进主线程</li>
+<li>遇到异步任务，放进异步任务队列</li>
+<li>主线程中的代码执行完毕后，去异步任务中读取代码</li>
+<li>优先读取微任务，将其放进主线程中执行</li>
+<li>主线程中的微任务代码执行完毕后，会去异步任务中读取宏任务，然后放进主线程中执行</li>
+<li>主线程在执行微任务或宏任务的过程中，不断重复上述步骤</li>
+</ol>
+<blockquote>
+<p>tip 参考文章<br><img src="https://juejin.cn/post/6844903764202094606#" alt="一次弄懂Event Loop（彻底解决此类面试问题）"><br><img src="https://juejin.cn/post/6844903512845860872#" alt="这一次，彻底弄懂 JavaScript 执行机制"><br><img src="https://juejin.cn/post/6844903955286196237#" alt="【THE LAST TIME】彻底吃透 JavaScript 执行机制"></p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:ataoyoyo@foxmail.com">ATaoYoyo</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://ataoyoyo.github.io/2021/11/21/JavaScript%E7%AC%94%E8%AE%B0/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/">https://ataoyoyo.github.io/2021/11/21/JavaScript笔记/事件循环/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/JavaScript%E7%AC%94%E8%AE%B0/">JavaScript笔记</a></div><div class="post_share"><div class="social-share" data-image="/img/article/js/js.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2021/11/21/JavaScript%E7%AC%94%E8%AE%B0/%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE/" title="原型与原型链"><img class="cover" src="/img/article/js/js.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-21</div><div class="title">原型与原型链</div></div></a></div><div><a href="/2021/11/21/JavaScript%E7%AC%94%E8%AE%B0/%E5%87%BD%E6%95%B0%E4%BD%9C%E7%94%A8%E5%9F%9F/" title="函数作用域"><img class="cover" src="/img/article/js/js.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-21</div><div class="title">函数作用域</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> Comment</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF"><span class="toc-number">1.</span> <span class="toc-text">事件循环</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E4%BB%BB%E5%8A%A1%E5%92%8C%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.2.</span> <span class="toc-text">同步任务和异步任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8F%E4%BB%BB%E5%8A%A1%EF%BC%88MacroTask%EF%BC%89%E4%B8%8E%E5%BE%AE%E4%BB%BB%E5%8A%A1%EF%BC%88MicroTask%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">宏任务（MacroTask）与微任务（MicroTask）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.4.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: rgba(255, 255, 255, 0.1)"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By ATaoYoyo</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="Increase font size"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="Decrease font size"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="Toggle Between Traditional Chinese And Simplified Chinese">简</button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="Scroll To Comments"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
