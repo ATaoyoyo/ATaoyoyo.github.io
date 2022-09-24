@@ -38,12 +38,46 @@ aside:
   button: true
   mobile: true
   position: right
+  card_author:
+    enable: true
+    description:
+    button:
+      enable: true
+      icon: fab fa-github
+      text: Follow Me!
+      link: https://github.com/ATaoyoyo
   card_announcement:
     enable: true
-    content:
-      多读书📖多看报📰
+    content: 多读书📖多看报📰
       <br />
       77零食🍣多睡觉💤
+  card_recent_post:
+    enable: true
+    limit: 5 # if set 0 will show all
+    sort: date # date or updated
+    sort_order: # Don't modify the setting unless you know how it works
+  card_categories:
+    enable: true
+    limit: 0 # if set 0 will show all
+    expand: false # none/true/false
+    sort_order: # Don't modify the setting unless you know how it works
+  card_tags:
+    enable: true
+    limit: 40 # if set 0 will show all
+    color: true
+    sort_order: # Don't modify the setting unless you know how it works
+  card_archives:
+    enable: true
+    type: monthly # yearly or monthly
+    format: YYYY年MM月 # eg: YYYY年MM月
+    order: -1 # Sort of order. 1, asc for ascending; -1, desc for descending
+    limit: 8 # if set 0 will show all
+    sort_order: # Don't modify the setting unless you know how it works
+  card_webinfo:
+    enable: true
+    post_count: true
+    last_push_date: true
+    sort_order: # Don't modify the setting unless you know how it works
 
 # 加载动画 Loading Animation
 preloader: true
@@ -96,7 +130,6 @@ copy:
     enable: true
     limit_count: 50
 
-
 translate:
   enable: true
   # 默认按钮显示文字(网站是简体，应设置为'default: 繁')
@@ -106,9 +139,9 @@ translate:
   #延迟时间,若不在前, 要设定延迟翻译时间, 如100表示100ms,默认为0
   translateDelay: 0
   #当文字是简体时，按钮显示的文字
-  msgToTraditionalChinese: "繁"
+  msgToTraditionalChinese: '繁'
   #当文字是繁体时，按钮显示的文字
-  msgToSimplifiedChinese: "简"
+  msgToSimplifiedChinese: '简'
 
 # dark mode
 darkmode:
@@ -129,11 +162,11 @@ busuanzi:
   page_pv: true
 
 # runtimeshow:
-  # enable: true
-  # publish_date: 6/7/2018 00:00:00  
-  ##网页开通时间
-  #格式: 月/日/年 时间
-  #也可以写成 年/月/日 时间
+# enable: true
+# publish_date: 6/7/2018 00:00:00
+##网页开通时间
+#格式: 月/日/年 时间
+#也可以写成 年/月/日 时间
 
 comments:
   # Up to two comments system, the first will be shown as default
@@ -149,22 +182,22 @@ comments:
 
 sharejs:
   enable: true
-  sites: facebook,twitter,wechat,weibo,qq  #想要显示的内容
+  sites: facebook,twitter,wechat,weibo,qq #想要显示的内容
 
 theme_color:
   enable: true
-  main: "#F66"
-  paginator: "#00c4b6"
-  button_hover: "#F66"
-  text_selection: "#00c4b6"
-  link_color: "#99a9bf"
-  meta_color: "#858585"
-  hr_color: "#A4D8FA"
-  code_foreground: "#F47466"
-  code_background: "rgba(27, 31, 35, .05)"
-  toc_color: "#00c4b6"
-  blockquote_padding_color: "#49b1f5"
-  blockquote_background_color: "#49b1f5"
+  main: '#F66'
+  paginator: '#00c4b6'
+  button_hover: '#F66'
+  text_selection: '#00c4b6'
+  link_color: '#99a9bf'
+  meta_color: '#858585'
+  hr_color: '#A4D8FA'
+  code_foreground: '#F47466'
+  code_background: 'rgba(27, 31, 35, .05)'
+  toc_color: '#00c4b6'
+  blockquote_padding_color: '#49b1f5'
+  blockquote_background_color: '#49b1f5'
 # 图片格式 url(http://xxxxxx.com/xxx.jpg)
 # 颜色（HEX值/RGB值/顔色单词/渐变色)
 # 留空 不显示背景
@@ -189,5 +222,94 @@ fireworks:
 # A simple 404 page
 error_404:
   enable: true
-  subtitle: '頁面沒有找到'
+  subtitle: '页面消失在了神奇的元宇宙中...'
   background:
+
+# CDN
+# Don't modify the following settings unless you know how they work
+# 非必要請不要修改
+CDN:
+  # main
+  main_css: /css/index.css
+  jquery: https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js
+  main: https://cdn.jsdelivr.net/npm/hexo-theme-butterfly@3.8.4/source/js/main.min.js # /js/main.js
+  utils: https://cdn.jsdelivr.net/npm/hexo-theme-butterfly@3.8.4/source/js/utils.min.js # /js/utils.js
+
+  # pjax
+  pjax: https://cdn.jsdelivr.net/npm/pjax/pjax.min.js
+
+  # comments
+  gitalk: https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js
+  gitalk_css: https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css
+  valine: https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js
+  disqusjs: https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js
+  disqusjs_css: https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css
+  utterances: https://utteranc.es/client.js
+  twikoo: https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.min.js
+  waline: https://cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js
+
+  # share
+  addtoany: https://static.addtoany.com/menu/page.js
+  sharejs: https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js
+  sharejs_css: https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css
+
+  # search
+  local_search: https://cdn.jsdelivr.net/gh/jerryc127/butterfly.js.org/source/selfjs/localsearch.min.js?ver=3.8.4 # https://cdn.jsdelivr.net/npm/hexo-theme-butterfly@3.8.4/source/js/search/local-search.min.js # /js/search/local-search.js
+  algolia_js: https://cdn.jsdelivr.net/npm/hexo-theme-butterfly@3.8.4/source/js/search/algolia.min.js # /js/search/algolia.js
+  algolia_search: https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.js
+  algolia_search_css: https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.css
+
+  # math
+  mathjax: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  katex: https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css
+  katex_copytex: https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js
+  katex_copytex_css: https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.css
+  mermaid: https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js
+
+  # count
+  busuanzi: //busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js
+
+  # background effect
+  canvas_ribbon: https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js
+  canvas_fluttering_ribbon: https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js
+  canvas_nest: https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js
+
+  lazyload: https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js
+  instantpage: https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js
+  typed: https://cdn.jsdelivr.net/npm/typed.js/lib/typed.min.js
+  pangu: https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js
+
+  # photo
+  fancybox_css: https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css
+  fancybox: https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js
+  medium_zoom: https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js
+
+  # snackbar
+  snackbar_css: https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css
+  snackbar: https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js
+
+  # effect
+  activate_power_mode: https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js
+  fireworks: https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js
+  click_heart: https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js
+  ClickShowText: https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js
+
+  # fontawesome
+  fontawesome: https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css
+
+  # Conversion between Traditional and Simplified Chinese
+  translate: https://cdn.jsdelivr.net/gh/jerryc127/butterfly.js.org/source/selfjs/tw_cn.min.js?ver=3.8.4 #https://cdn.jsdelivr.net/npm/hexo-theme-butterfly@3.8.4/source/js/tw_cn.min.js # /js/tw_cn.js
+
+  # justifiedGallery
+  justifiedGallery_js: https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js
+  justifiedGallery_css: https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css
+
+  # aplayer
+  aplayer_css: https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css
+  aplayer_js: https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js
+  meting_js: https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js
+
+  # Prism.js
+  prismjs_js: https://cdn.jsdelivr.net/npm/prismjs/prism.min.js
+  prismjs_lineNumber_js: https://cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js
+  prismjs_autoloader: https://cdn.jsdelivr.net/npm/prismjs/plugins/autoloader/prism-autoloader.min.js
