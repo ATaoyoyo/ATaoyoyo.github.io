@@ -1,7 +1,8 @@
 ---
 title: Docker及Jenkins安装
-date: 2021-06-17 15:22:35
-tags:
+date: 2022-09-24 13:53:00
+tags: 服务端
+categories: 服务端
 cover: /img/article/leetcode/primary/primary.png
 top_img: /img/article/leetcode/primary/primary.png
 description: 从 0 到 1 实现一套 CI/CD 流程
