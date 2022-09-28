@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.19.3",
-    "@babel/preset-env": "^7.19.1",
+    "@babel/preset-env": "^7.19.3",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-clean-css": "^4.3.0",
