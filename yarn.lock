@@ -3510,10 +3510,10 @@ hexo-server@^3.0.0:
     picocolors "^1.0.0"
     serve-static "^1.14.1"
 
-hexo-theme-butterfly@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/hexo-theme-butterfly/-/hexo-theme-butterfly-4.4.0.tgz#c575d710d65ec27968393dcaca2b1d1ee7d8d49b"
-  integrity sha512-YCgA8eyKA9/uvP3n4887mL6kRhRXrasOZqNFkPvUt4yu1+ge/IUkUCtvlNUb29NNJ0B/SjbFuGP+ZHVB/YrEgA==
+hexo-theme-butterfly@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/hexo-theme-butterfly/-/hexo-theme-butterfly-4.5.0.tgz#621b402dad4e3b07c2de11c8c91abaf4684de94b"
+  integrity sha512-TBKkGMS7L8EfX9tZG2hcv9xm1JrX6Wr85hB5VM0NtlfJah0008fsCa2WEMRHOKl5Gx3kGJsICjXq8yTywxVNCg==
   dependencies:
     hexo-renderer-pug "^3.0.0"
     hexo-renderer-stylus "^2.1.0"
