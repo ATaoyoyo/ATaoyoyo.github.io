@@ -2998,6 +2998,9 @@ blockquote footer cite:before {
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
+#aside-content .card-categories .card-category-list > .parent > .child {
+  display: none;
+}
 #aside-content .card-webinfo .webinfo .webinfo-item {
   display: -webkit-box;
   display: -moz-box;
